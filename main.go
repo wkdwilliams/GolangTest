@@ -15,6 +15,7 @@ func main(){
 	r := gin.Default()
 
 	r.POST("/user", controllers.UserStore)
+	r.GET("/user", controllers.UserIndex)
 
 	r.Run()
 }
