@@ -29,7 +29,10 @@ func DeleteUser(id int) (models.User){
 }
 
 func UpdateUser(id int, user models.User) (models.User){
-	initializers.DB.Model(&user).Updates(user)
+	var userBeforeUpdate models.User
+	initializers.DB.First(&userBeforeUpdate, id)
+
+	initializers.DB.Model(&userBeforeUpdate).Updates(user)
 
 	return user
 }
