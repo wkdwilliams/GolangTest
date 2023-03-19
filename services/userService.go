@@ -5,24 +5,36 @@ import (
 	"github.com/wkdwilliams/GolangTest/models"
 )
 
-// func GetUser(id int) models.User{
+func GetUsers() ([]models.User, error){
+	var users []models.User
+	result := initializers.DB.Find(&users)
 
-// }
-
-func GetUsers() string{
-	// users := make([]models.User, 0, 2)
-	// users = append(users, models.User{})
-
-	// return users
-	return "hello"
+	return users, result.Error
 }
 
-func UpdateUser(id int, user models.User){
+func GetUser(id int) (models.User, error){
+	var user models.User
+	result := initializers.DB.First(&user, id)
 
+	return user, result.Error
+}
+
+func DeleteUser(id int) (models.User){
+	var user models.User
+	initializers.DB.First(&user, id)
+
+	initializers.DB.Delete(&models.User{}, id)
+
+	return user
+}
+
+func UpdateUser(id int, user models.User) (models.User){
+	initializers.DB.Model(&user).Updates(user)
+
+	return user
 }
 
 func CreateUser(user models.User) (models.User, error){
-
 	result := initializers.DB.Create(&user)
 
 	return user, result.Error
