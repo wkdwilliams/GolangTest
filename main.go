@@ -9,6 +9,7 @@ import (
 func init(){
 	initializers.LoadVariables()
 	initializers.ConnectToDB()
+	initializers.ConnectToRedis()
 }
 
 func main(){
@@ -16,6 +17,9 @@ func main(){
 	gin := gin.Default()
 
 	router.RegisterRoutes(gin)
+
+	// get, _ := initializers.Redis.Get(initializers.RedisContext, "test").Result()
+	// fmt.Println(get)
 
 	gin.Run()
 }
