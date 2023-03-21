@@ -2,3 +2,4 @@
 /main
 .env
 /build/main
+.DS_Store
