@@ -5,30 +5,37 @@ import (
 	"github.com/wkdwilliams/GolangTest/models"
 )
 
-func GetUsers() ([]models.User, error){
+type UserService struct{
+
+}
+
+func (u *UserService) GetUsers() ([]models.User, error){
 	var users []models.User
 	result := initializers.DB.Find(&users)
 
 	return users, result.Error
 }
 
-func GetUser(id int) (models.User, error){
+func (u *UserService) GetUser(id int) (*models.User, error){
 	var user models.User
-	result := initializers.DB.First(&user, id)
 
-	return user, result.Error
+	if err := initializers.DB.Where("id = ?", id).First(&user).Error; err != nil{
+		return nil, err
+	}
+
+	return &user, nil
 }
 
-func DeleteUser(id int) (models.User){
+func (u *UserService) DeleteUser(id int) (models.User){
 	var user models.User
 	initializers.DB.First(&user, id)
 
-	initializers.DB.Delete(&models.User{}, id)
+	initializers.DB.Delete(&user)
 
 	return user
 }
 
-func UpdateUser(id int, user models.User) (models.User){
+func (u *UserService) UpdateUser(id int, user models.User) (models.User){
 	var userBeforeUpdate models.User
 	initializers.DB.First(&userBeforeUpdate, id)
 
@@ -37,7 +44,7 @@ func UpdateUser(id int, user models.User) (models.User){
 	return user
 }
 
-func CreateUser(user models.User) (models.User, error){
+func (u *UserService) CreateUser(user models.User) (models.User, error){
 	result := initializers.DB.Create(&user)
 
 	return user, result.Error
