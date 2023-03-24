@@ -9,6 +9,14 @@ import (
 	"gorm.io/gorm"
 )
 
+func NewUserController() *UserController{
+	service := services.UserService{}
+
+	return &UserController{
+		service,
+	}
+}
+
 type UserController struct{
 	UserService services.UserService
 }
